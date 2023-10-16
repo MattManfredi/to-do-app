@@ -1,8 +1,12 @@
-import firebase from '../Config/firebase'
-const Home = () => {
-  console.log(firebase);
+/* eslint-disable react/prop-types */
+
+const Home = ({login,userName,userLastName}) => {
+  
   return (
-    <div>Home</div>
+    <div>
+      <p> HOLA {userName} {userLastName}</p>
+    </div>
+
   )
 }
 

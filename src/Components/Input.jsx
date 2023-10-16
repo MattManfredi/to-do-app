@@ -1,15 +1,22 @@
 /* eslint-disable react/prop-types */
 
-const Input = ({register,type="text",label,placeholder,errors,name,textForm}) => {
+import Icon from "./Icon";
+
+const Input = ({register,type="text",label,placeholder,errors,name,textForm,color,className}) => {
     
   return (
-    <div>
-        <label htmlFor={name}>{label}: </label>
-        <input type={type} placeholder={placeholder} {...register} id={name} className=" focus:bg-slate-200 rounded-md placeholder-gray-400 border border-green-400 focus:placeholder-green-500 focus:"/>
-        <p className="text-green-500">{textForm}</p>
-        {errors && errors[name]?.type==="required" &&<div className='text-orange-600'>El campo es obligatorio</div>}
+    <div className="mb-6 w-full">
+      <div className={className || "flex items-end"}>
+        <Icon label={label} color={color} />
+        <label htmlFor={name} className=" text-xl font-bold pl-5 text-darkBrown capitalize">{label} </label>
+      </div>
+        <input type={type} placeholder={placeholder} {...register} id={name} className=" bg-transparent placeholder:text-green border-b-2 border-b-darkBlue w-full text-darkBrown focus:outline-none focus:border-b-green transition"/>
+        <p className="text-darkBrown">{textForm}</p>
+        {errors && errors[name]?.type==="required" &&<div className='text-danger'>El campo es obligatorio</div>}
     </div>
   )
 }
 
 export default Input;
+
+
