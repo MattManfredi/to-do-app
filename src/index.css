@@ -4,7 +4,8 @@
 
 html{
     background-color: #f4fcfc;
-    opacity: 0.8;
     background-image: repeating-radial-gradient(circle at 0px 0px, transparent 0px, rgb(244, 252, 252) 12px), repeating-linear-gradient(rgba(191, 204, 181, 0.333), rgb(191, 204, 181));
-    height: 100vh;
+    background-size: 100% 100%;
+    background-attachment: fixed;
 }
+

@@ -5,14 +5,18 @@ const ToDoAdd = ({userId,handleTodoAdded }) => {
     const {
         register,
         handleSubmit,
+        reset,
         formState: { errors },
       } = useForm()
 
       const onSubmit = async (data) => {
-        console.log(data);
+
+        console.log(errors);
+        const toDos = {...data,accomplished:false}
         try{
-          await createToDo(userId,data);
+          await createToDo(userId,toDos);
           handleTodoAdded();
+          reset()
         }
         catch(e){
           console.log(e);
@@ -21,8 +25,8 @@ const ToDoAdd = ({userId,handleTodoAdded }) => {
     
       return (
         <form onSubmit={handleSubmit(onSubmit)} className=" rounded-md mx-auto mt-40 w-2/5 px-4 py-7 bg-darkGrey backdrop-blur-[2px] shadow-[0_0_56px_23px_rgba(0,0,0,0.83)]">
-          <InputToDo type="text" name="todo" label="Ingrese su tarea" errors={errors} register={{...register("todoName",{required:true})}} />
-          <InputToDo type="date" name="date" label="Ingrese la fecha limite" errors={errors} max="3000-01-01" register={{...register("todoDate",{required:true})}} />
+          <InputToDo type="text" name="todo" label="Ingrese su tarea" errors={errors} register={{...register("todo",{required:true})}} />
+          <InputToDo type="date" name="date" label="Ingrese la fecha limite" errors={errors} max="3000-01-01" register={{...register("date",{required:false})}} />
           <p className=" uppercase font-bold text-white">Prioridad:</p>
           <ul className=" flex w-ful border border-white rounded-md backdrop-blur-sm">
             <li className="w-1/3">
@@ -59,6 +63,7 @@ const ToDoAdd = ({userId,handleTodoAdded }) => {
               </label>
             </li>
           </ul>
+          {errors.priority ?.type==="required" &&<div className='text-danger mt-2'>Debe elegir una prioridad, PELOTUDO</div>}
           <button className="flex bg-darkBrown rounded-md m-auto px-7 py-2 mt-10 text-lightGreen border border-darkGrey font-bold  hover:bg-lightBrown hover:text-darkGreen transition " type="submit">Agregar Tarea</button>
         </form>
       )

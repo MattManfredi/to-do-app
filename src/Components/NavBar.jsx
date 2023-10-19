@@ -14,7 +14,7 @@ const NavBar = ({login,setLogin,setUser}) => {
   <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto py-3">
     <p className="flex items-center">
         <img src={logo} className="h-20 mr-3 hover:animate-spin transition" alt="Todo Logo" />
-        <Link to={'/'} className="self-center text-3xl font-semibold whitespace-nowrap text-darkBrown">To Do Manager</Link>
+        <Link to={'/'} className="self-center text-3xl font-semibold whitespace-nowrap text-darkBrown ">To Do Manager</Link>
     </p>
     <div className="w-full md:block md:w-auto" id="navbar-solid-bg">
       <ul className="text-xl text-darkBrown tracking-wider flex flex-col font-bold mt-4 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-transparent ">

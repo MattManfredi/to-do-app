@@ -1,39 +1,75 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react"
 import ToDoAdd from "../Components/ToDoAdd"
-import {getToDos} from "../Services/toDoServices"
+import {getToDos, modifyTodo} from "../Services/toDoServices"
 import ToDoRow from "../Components/ToDoRow"
+import Icon from "../Components/Icon"
 
 
 
 const ToDoPage = ({userId}) => {
-  const [todosList, setTodosList] = useState([]);
+  const [completed, setCompleted] = useState([]);
+  const [notCompleted,setNotCompleted] = useState([]);
   const [newTodoAdded, setNewTodoAdded] = useState(false);
+  const [sort,setSort] = useState(false);
+  const handleTodoEliminated = async(todoId,data) =>{
+    try{
+       await modifyTodo(userId,todoId,data);
+    }catch(e){
+        console.log(e);
+    }
+  }
   useEffect(()=>{
     const request = async() =>{
       try{
-        const data = await getToDos(userId);
-        setTodosList(data)
-        console.log(data);
+        const data = await getToDos(userId);  
+          setCompleted(data.completed);
+          setNotCompleted(data.notCompleted);
       }catch(e){
-        console.log(e);
+        console.log(e); 
       }
     };
     request();
-  },[newTodoAdded]);
+  },[newTodoAdded,sort]);
 
   const handleTodoAdded  = () =>{ setNewTodoAdded((prev)=>!prev)}
 
   return (
     <section>
       <ToDoAdd userId={userId} handleTodoAdded ={handleTodoAdded }/>
-        <ul>
+        <table className=" mt-10 w-3/4 m-auto">
+        <thead className=" text-brown  uppercase  border-2 border-darkBrown bg-lightGreen bg-wave-brown-pattern py-10">
+            <tr className="text-sm">
+                <th scope="col" className="py-3 relative font-bold backdrop-blur-[2px]">
+                    Terminada                   
+                </th>
+                <th scope="col" className=" px-6 py-3 backdrop-blur-[2px]">
+                    Tarea
+                </th>
+                <th scope="col" className="px-6 py-3 backdrop-blur-[2px]">
+                    Fecha limite
+                </th>
+                <th scope="col" className="px-6 py-3 backdrop-blur-[2px]">
+                    Prioridad
+                </th>
+                <th scope="col" className="px-6 py-3 backdrop-blur-[2px]">
+                    Eliminar
+                </th>
+            </tr>
+        </thead>
+        <tbody className="text-sm ">
             {
-                todosList.map((toDo,index)=>(
-                    <ToDoRow toDo={toDo} key={index}/>
+                notCompleted.map((toDo,index)=>(
+                    <ToDoRow toDo={toDo} key={index} handleTodoEliminated={handleTodoEliminated} index={index+1} setSort={setSort} sort={sort} bgColor="bg-lightBrown"/>
                     ))
+                }
+            {
+                completed.map((toDo,index)=>(
+                    <ToDoRow toDo={toDo} key={index} handleTodoEliminated={handleTodoEliminated} index={index+1} setSort={setSort} sort={sort} lineThrough="line-through" bgColor="bg-lightGreen"/>
+                ))
             }
-        </ul>
+        </tbody>
+        </table>
     </section>
   )
 }
