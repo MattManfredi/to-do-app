@@ -3,8 +3,9 @@
 @tailwind utilities;
 
 html{
-    background-color: #f4fcfc;
-    background-image: repeating-radial-gradient(circle at 0px 0px, transparent 0px, rgb(244, 252, 252) 12px), repeating-linear-gradient(rgba(191, 204, 181, 0.333), rgb(191, 204, 181));
+    /* background-color: #f4fcfc; */
+    background: rgb(242,234,211);
+    background: linear-gradient(133deg, rgba(242,234,211,1) 32%, rgba(191,204,181,1) 65%);
     background-size: 100% 100%;
     background-attachment: fixed;
 }

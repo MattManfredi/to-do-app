@@ -5,6 +5,7 @@ import Home from './Pages/Home';
 import LogIn from './Pages/LogIn';
 import Register from './Pages/Register';
 import ToDoPage from './Pages/ToDoPage';
+import NotFound from './Pages/NotFound';
 import { useState } from 'react';
 
 function App() {
@@ -17,10 +18,17 @@ function App() {
         <NavBar login={login} setLogin={setLogin} setUser={setUser}></NavBar>
       </header>
         <Routes>
-          <Route path='/' element={<Home login={login} userName={user.name} userLastName={user.lastName}/>} />
-          <Route path='/login' element={<LogIn setLogin={setLogin} setUser={setUser} login={login}/>} />
-          <Route path='/register' element={<Register/>} />
-          <Route path='/todo' element={<ToDoPage userId={user.userId} login={login}/>} />
+        <Route path='/' element={<Home login={login} userName={user.name} userLastName={user.lastName}/>} />
+        <Route path="*" element={<NotFound />} />
+          {login && <Route path='/todo' element={<ToDoPage userId={user.userId} login={login}/>} />}
+          {!login && (
+            <>
+            <Route path='/login' element={<LogIn setLogin={setLogin} setUser={setUser} login={login}/>} />
+            <Route path='/register' element={<Register/>} />
+            </>
+          )}
+          
+          
         </Routes>
     </Router>
     </div>

@@ -1,24 +1,26 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import Icon from "./Icon";
-const ToDoRow = ({toDo,handleTodoEliminated,setSort,sort,index,lineThrough,bgColor}) => {
+const ToDoRow = ({toDo,handleStatusChange,lineThrough,bgColor,deleteTodo}) => {
   const [loading,setLoading] = useState(false);
-  
+  const bgPriority = {alta:"bg-danger", media:"bg-yellow",baja:"bg-green"}
+  const handleDelete = ()=>{
+    deleteTodo(toDo.id)
+  }
   const handleFinish = async()=>{
     setLoading(true)
     const changeTodo = !toDo.accomplished;
     try{
-      await handleTodoEliminated(toDo.id,changeTodo);
+      await handleStatusChange(toDo.id,changeTodo);
       setLoading(false)
     }catch(e){
       console.log(e);
       setLoading(false)
     }
-    const changeSort = !sort;
-    setSort(changeSort)
+    
   }
   return (
-    <tr className={`${bgColor} border-2 border-darkGrey`}>
+    <tr className={`${bgColor} `}>
     
     <th scope="row" className=" py-4 ">{loading 
     ? 
@@ -30,10 +32,10 @@ const ToDoRow = ({toDo,handleTodoEliminated,setSort,sort,index,lineThrough,bgCol
       </div>
     : toDo.accomplished ? <Icon label="check" color="text-green" click={handleFinish}/> : <Icon label="cross" color="text-danger" click={handleFinish}/>}</th>
     
-    <td className={`px-2 break-words w-3/5 py-4 font-medium text-darkGreen whitespace-wrap ${lineThrough}`}>{toDo.todo}</td>
+    <td className={`px-2 break-words w-3/5 py-4 font-medium text-darkGreen whitespace-wrap ${lineThrough} `}>{toDo.todo}</td>
     <td className="px-6 py-4 text-center">{toDo.date}</td>
-    <td className="px-6 py-4 text-center uppercase font-bold ">{toDo.priority}</td>
-    <td className="px-6 py-4 cursor-pointer text-center bg-danger text-white font-bold cursor-pointer border-2 border-darkGrey" >Eliminar</td>
+    <td className={`px-6 py-4 text-center uppercase font-bold`}><span className={`${bgPriority[toDo.priority]} p-2 rounded-full`}>{toDo.priority}</span></td>
+    <td className="px-6 py-4 text-center bg-danger text-white font-bold cursor-pointer rounded-r-lg" onClick={handleDelete} >Eliminar</td>
     </tr>
   )
 }

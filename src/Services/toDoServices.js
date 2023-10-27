@@ -1,5 +1,5 @@
 import firebase from "../Config/firebase";
-import {collection,addDoc,getDocs, doc,updateDoc} from 'firebase/firestore'
+import {collection,addDoc,getDocs, doc,updateDoc,deleteDoc } from 'firebase/firestore'
 
 
 export async function createToDo(userId,data){
@@ -32,10 +32,14 @@ export async function getToDos(userId){
 }
 
 export async function modifyTodo(userId,todoId,data) {
-    const userDocRef = doc(firebase.firestore(), 'users', userId,'toDos',todoId);
-    await updateDoc(userDocRef, {
-        accomplished: data
-    });
-  }
+  const userDocRef = doc(firebase.firestore(), 'users', userId,'toDos',todoId);
+  await updateDoc(userDocRef, {
+      accomplished: data
+  });
+}
+
+export async function deleteTodo(userId,todoId){
+    await deleteDoc(doc(firebase.firestore(), 'users', userId,'toDos',todoId))
+}
 
   
